@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
@@ -31,8 +32,9 @@ public class MainFrame extends JFrame {
      * 操作菜单
      */
     private JMenu mnuOperate;
-    private JMenuItem mniAddStudent;
+    private JMenuItem mniAddGrade;
     private JMenuItem mniBrowseStudent;
+    private JMenuItem mniBrowseGrade;
     private JMenuItem mniCourse;
 
 
@@ -42,15 +44,13 @@ public class MainFrame extends JFrame {
     private JPanel panel;
     private JPanel  pnlMain;
 
-    private JTable table;
-
 
 
     /**
      * 背景标签
      */
-    private JLabel lblBackground;
-
+//    private JLabel lblBackground;
+//    private ImageIcon imgBackground;
 
 
     /**
@@ -74,9 +74,6 @@ public class MainFrame extends JFrame {
         // 创建主菜单
         mnbMain = new JMenuBar();
 
-//        JScrollPane scrollPane = new JScrollPane();
-//        scrollPane.setBounds(0,0,700,250);
-
         // 创建【设置】菜单及其菜单项
         mnuSet = new JMenu("System Set[S]");
         mnuSet.setMnemonic(KeyEvent.VK_S);
@@ -85,19 +82,62 @@ public class MainFrame extends JFrame {
         // 创建【操作】菜单及其菜单项
         mnuOperate = new JMenu("Data Operate[O]");
         mnuOperate.setMnemonic(KeyEvent.VK_O);
-        mniAddStudent = new JMenuItem("ManageGradeRecord");
+        mniAddGrade = new JMenuItem("ManageGradeRecord");
         mniBrowseStudent = new JMenuItem("ManageStudentRecord");
         mniCourse = new JMenuItem("ManageCourse");
+        mniBrowseGrade = new JMenuItem("BrowseGrade");
 
         // 创建面板
         panel = (JPanel) getContentPane();
         pnlMain = new JPanel();
 
+        /*
+         * 设置JTable的列名
+         */
+        String[] columnNames =
+                { "CourseID", "CourseName", "Teacher", "CourseInfo"};
+
+        stuio obj = new stuio();
+
+        /*
+         * JTable的其中一种构造方法
+         */
+        Object[][] data = obj.ReadCSVTbl(4);
+        JTable table = new JTable(data, columnNames);
+
+        add(table,BorderLayout.PAGE_END);
+        TableColumn column = null;
+        int colunms = table.getColumnCount();
+        for(int i = 0; i < colunms; i++)
+        {
+            column = table.getColumnModel().getColumn(i);
+            /*将每一列的默认宽度设置为150*/
+            int colsize = 150;
+            if(i==0)
+                colsize = 120;
+            if(i==colunms-1)
+                colsize = 350;
+
+            column.setPreferredWidth(colsize);
+        }
+        /*
+         * 设置JTable自动调整列表的状态，此处设置为关闭
+         */
+
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        table.setGridColor(Color.darkGray);
+        table.setFont(new Font("Dialog", 0, 18));
+        JScrollPane scroll = new JScrollPane(table);
+        panel.setLayout(new BorderLayout());
+        panel.add(pnlMain,"North");
+        pnlMain.add(scroll);
         // 创建背景图片
-        //imgBackground = new ImageIcon("images/background.jpg");
+
+        //imgBackground = new ImageIcon("img/background.jpg");
 
         // 创建背景标签
-       // lblBackground = new JLabel(imgBackground);
+//       lblBackground = new JLabel(imgBackground);
+//        pnlMain.add(lblBackground);
 
 
         // 设置菜单栏
@@ -112,14 +152,15 @@ public class MainFrame extends JFrame {
 
         // 添加【操作】菜单
         mnbMain.add(mnuOperate);
-        mnuOperate.add(mniAddStudent);
+        mnuOperate.add(mniAddGrade);
         mnuOperate.add(mniBrowseStudent);
         mnuOperate.add(mniCourse);
+        mnuOperate.add(mniBrowseGrade);
 
 
 
         // 设置窗口属性
-        setSize(800, 640);
+        setSize(600, 500);
         setVisible(true);
         setLocationRelativeTo(null);
 
@@ -139,7 +180,7 @@ public class MainFrame extends JFrame {
         });
 
         // ADD gradeinfo
-        mniAddStudent.addActionListener(new ActionListener() {
+        mniAddGrade.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                new GradeManagementFrame("ManageGradeRecord");
 //                try {
@@ -161,6 +202,13 @@ public class MainFrame extends JFrame {
         mniCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new ManageCourseFrame("ManageCourse");
+            }
+        });
+
+        // MANAGE gradeinfo
+        mniBrowseGrade.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new BrowseGradeFrame("ManageGrade");
             }
         });
 

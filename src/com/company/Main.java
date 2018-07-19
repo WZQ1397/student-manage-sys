@@ -17,49 +17,11 @@ import stuio.stuio;
 public class Main {
     public static void main(String[] args) {
         new begindemo("这是我的管理系统");
-        stuio stu = new stuio();
-        //stu.record();
+
 
     }
 }
 
-class managedemo extends JFrame {
-
-    //声明屏幕的宽高，程序窗口的宽高
-    private int windowWidth;
-    private int windowHeight;
-    private int screenSizeWidth;
-    private int screenSizeHeight;
-
-    public managedemo(String title) {
-        super(title);   //设置标题
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    //设置能关闭窗口
-        this.setSize(600, 400);     //设置窗口的大小
-        this.setLayout(null);       //设置程序默认布局格式为空，以便于后期自己简单的设置布局
-        this.setResizable(false);   //设置不可缩放
-        init();                     //执行初始化函数（将用户名密码等组件加入到面板中）
-        this.setVisible(true);      //使程序可见
-    }
-
-    public void init() {
-        //给屏幕的宽度高度，程序窗口的宽度高度赋值
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        screenSizeWidth = (int) dimension.getWidth();
-        screenSizeHeight = (int) dimension.getHeight();
-        windowWidth = this.getWidth();
-        windowHeight = this.getHeight();
-        //设置程序窗口的位置为屏幕的正中央
-        this.setLocation(screenSizeWidth / 2 - windowWidth / 2,
-                screenSizeHeight / 2 - windowHeight / 2);
-
-        //声明登录按钮
-        JButton login_btn = new JButton("login");
-
-        login_btn.setBounds(280, 260, 100, 50);
-
-        this.add(login_btn);
-}
-}
 
 class begindemo extends JFrame {
     //登录的用户名和密码
@@ -96,9 +58,9 @@ class begindemo extends JFrame {
         // 声明姓名，密码的标签
         JLabel username_label = new JLabel("Name");
         JLabel password_label = new JLabel("Password");
-        JLabel Title_label = new JLabel("student information system");
+        JLabel Title_label = new JLabel("Student Information System");
         Title_label.setFont(new java.awt.Font("verdana", 1, 24));
-        Title_label.setForeground(Color.ORANGE);
+        Title_label.setForeground(Color.BLUE);
         // 声明姓名输入框和密码输入框
         final JTextField user_field = new JTextField();
         final JPasswordField password_field = new JPasswordField();
@@ -106,7 +68,7 @@ class begindemo extends JFrame {
         JButton login_btn = new JButton("login");
 
         //设置各个标签和输入框的大小和位置
-        Title_label.setBounds(80, 30, 500, 30);
+        Title_label.setBounds(100, 30, 500, 30);
         username_label.setBounds(100, 100, 100, 50);
         password_label.setBounds(100, 150, 100, 50);
         user_field.setBounds(200, 120, 300, 30);

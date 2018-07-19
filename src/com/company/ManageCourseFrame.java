@@ -131,10 +131,10 @@ public class ManageCourseFrame extends JFrame {
                 String CourseID = txtCourseID.getText()+sysmbol;
                 String CourseName = txtCourseName.getText();
                 StringBuilder str = new StringBuilder();
-                str.append(info).append(tutor).append(CourseID).append(CourseName);
+                str.append("course\n").append(info).append(tutor).append(CourseID).append(CourseName);
                 stuio input = new stuio();
               try {
-                  input.WriteCSV(CourseName,str.toString(),4);
+                  input.WriteCSV(txtCourseID.getText()+".class",str.toString(),4);
               } catch (IOException e1) {
                   e1.printStackTrace();
               }

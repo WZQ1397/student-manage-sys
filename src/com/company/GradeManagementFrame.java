@@ -140,7 +140,7 @@ public class GradeManagementFrame extends JFrame {
                 str.append(cid).append(grade).append(tutor).append(stuid).append(year);
                 stuio input = new stuio();
               try {
-                  String filename = "Grade.dat";
+                  String filename = "Grade";
                   input.WriteCSV(filename,str.toString(),4);
               } catch (IOException e1) {
                   e1.printStackTrace();
