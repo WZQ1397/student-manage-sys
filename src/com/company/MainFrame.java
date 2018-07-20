@@ -208,7 +208,7 @@ public class MainFrame extends JFrame {
         // MANAGE gradeinfo
         mniBrowseGrade.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new BrowseGradeFrame("ManageGrade");
+                new BrowseGradeFrame("BrowseGrade");
             }
         });
 

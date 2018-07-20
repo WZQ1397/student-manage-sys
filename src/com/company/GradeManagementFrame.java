@@ -6,12 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+
 import stuio.stuio;
+import stuio.CheckVaild;
 
 
 public class GradeManagementFrame extends JFrame {
@@ -131,26 +129,57 @@ public class GradeManagementFrame extends JFrame {
           @Override
             public void actionPerformed(ActionEvent e) {
                String sysmbol = ",";
-                String cid = txtCourseID.getText()+sysmbol;
-                String grade = txtGrade.getText()+sysmbol;
-                String tutor = txtSemester.getText()+sysmbol;
-                String stuid = txtStuID.getText()+sysmbol;
-                String year = txtYear.getText();
-                StringBuilder str = new StringBuilder();
-                str.append(cid).append(grade).append(tutor).append(stuid).append(year);
-                stuio input = new stuio();
-              try {
-                  String filename = "Grade";
-                  input.WriteCSV(filename,str.toString(),4);
-              } catch (IOException e1) {
-                  e1.printStackTrace();
+              CheckVaild chk = new CheckVaild();
+              int id_len = 8;
+              int str_len= 20;
+              boolean gogo = true;
+              if (!chk.CheckIDVaild(txtCourseID.getText(),id_len)){
+                  JOptionPane.showConfirmDialog(null, "Input Value " + txtCourseID.getText() + " is Invaild! At most " + id_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                  dispose();
+                  gogo = false;
               }
-                txtYear.setText("");
-                txtStuID.setText("");
-                txtSemester.setText("");
-                txtCourseID.setText("");
-                txtGrade.setText("");
+              if (!chk.CheckIDVaild(txtStuID.getText(),id_len)){
+                  JOptionPane.showConfirmDialog(null, "Input Value " + txtStuID.getText() + " is Invaild! At most " + id_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                  dispose();
+                  gogo = false;
+              }
+              if (!chk.CheckStrVaild(txtGrade.getText(),str_len)){
+                  JOptionPane.showConfirmDialog(null, "Input Value " + txtGrade.getText() + " is Invaild! At most " + id_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                  dispose();
+                  gogo = false;
+              }
+              if (!chk.CheckIDVaild(txtYear.getText(),id_len/2)){
+                  JOptionPane.showConfirmDialog(null, "Input Value " + txtYear.getText() + " is Invaild! At most " + id_len/2 + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                  dispose();
+                  gogo = false;
+              }
+              if (!chk.CheckStrVaild(txtSemester.getText(),str_len*2)){
+                  JOptionPane.showConfirmDialog(null, "Input Value " + txtSemester.getText() + " is Invaild! ", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                  dispose();
+                  gogo = false;
+              }
 
+              if(gogo) {
+                  String cid = txtCourseID.getText() + sysmbol;
+                  String grade = txtGrade.getText() + sysmbol;
+                  String tutor = txtSemester.getText() + sysmbol;
+                  String stuid = txtStuID.getText() + sysmbol;
+                  String year = txtYear.getText();
+                  StringBuilder str = new StringBuilder();
+                  str.append(cid).append(grade).append(tutor).append(stuid).append(year);
+                  stuio input = new stuio();
+                  try {
+                      String filename = "Grade";
+                      input.WriteCSV(filename, str.toString(), 4);
+                  } catch (IOException e1) {
+                      e1.printStackTrace();
+                  }
+                  txtYear.setText("");
+                  txtStuID.setText("");
+                  txtSemester.setText("");
+                  txtCourseID.setText("");
+                  txtGrade.setText("");
+              }
             }
         });
 

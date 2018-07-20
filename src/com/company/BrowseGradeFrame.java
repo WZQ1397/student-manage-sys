@@ -193,7 +193,7 @@ public class BrowseGradeFrame extends JFrame {
                     // 填充当前记录数据
                     fillFrameData(currentRow);
                 } else {
-                    JOptionPane.showMessageDialog(null, "已到第一条记录！", "浏览学生表记录", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Last Record！", "BrowseGrade", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -202,13 +202,13 @@ public class BrowseGradeFrame extends JFrame {
         btnNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentRow < rows) {
+                if (currentRow <= rows) {
                     // 设置当前记录号
                     currentRow++;
                     // 填充当前记录数据
                     fillFrameData(currentRow);
                 } else {
-                    JOptionPane.showMessageDialog(null, "已到最后一条记录！", "浏览学生表记录", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Last Record！", "BrowseGrade", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -218,7 +218,7 @@ public class BrowseGradeFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 设置当前记录号
-                currentRow = rows;
+                currentRow = rows+1;
                 // 填充当前记录数据
                 fillFrameData(currentRow);
             }
@@ -234,33 +234,33 @@ public class BrowseGradeFrame extends JFrame {
     private void fillFrameData(int currentRow) {
         if (currentRow > 0) {
            stuio input = new stuio();
-            setTitle("浏览GRade表记录" + " && 当前记录：" + currentRow);
+            setTitle("BrowseGradeRecord" + " && Current：" + currentRow);
             try {
-                String CID = input.ReadCSV(currentRow,0);
+                String CID = input.ReadCSV(currentRow,0,false);
                 txtCourseID.setText(CID);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                String SID = input.ReadCSV(currentRow,3);
+                String SID = input.ReadCSV(currentRow,3,false);
                 txtStuID.setText(SID);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                String sex = input.ReadCSV(currentRow,2);
-                txtGrade.setText(sex);
+                String tutor = input.ReadCSV(currentRow,2,false);
+                txtSemester.setText(tutor);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                String year = input.ReadCSV(currentRow,4);
+                String year = input.ReadCSV(currentRow,4,false);
                 txtYear.setText(year);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                String grade = input.ReadCSV(currentRow,1);
+                String grade = input.ReadCSV(currentRow,1,false);
                 txtGrade.setText(grade);
             } catch (IOException e) {
                 e.printStackTrace();

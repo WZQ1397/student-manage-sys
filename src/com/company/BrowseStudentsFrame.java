@@ -1,9 +1,7 @@
 package com.company;
 
-
-
-
 import stuio.stuio;
+import stuio.CheckVaild;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -190,7 +188,7 @@ public class BrowseStudentsFrame extends JFrame {
                     // 填充当前记录数据
                     fillFrameData(currentRow);
                 } else {
-                    JOptionPane.showMessageDialog(null, "已到第一条记录！", "浏览学生表记录", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "First Record！", "ManageStudentRecord", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -199,13 +197,13 @@ public class BrowseStudentsFrame extends JFrame {
         btnNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentRow < rows) {
+                if (currentRow <= rows) {
                     // 设置当前记录号
                     currentRow++;
                     // 填充当前记录数据
                     fillFrameData(currentRow);
                 } else {
-                    JOptionPane.showMessageDialog(null, "已到最后一条记录！", "浏览学生表记录", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Last Record！", "ManageStudentRecord", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -215,7 +213,7 @@ public class BrowseStudentsFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 设置当前记录号
-                currentRow = rows;
+                currentRow = rows+1;
                 // 填充当前记录数据
                 fillFrameData(currentRow);
             }
@@ -228,19 +226,45 @@ public class BrowseStudentsFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String sysmbol = ",";
-                String id = txtId.getText()+sysmbol;
-                String name = txtName.getText()+sysmbol;
-                String sex = txtSex.getText()+sysmbol;
-                String age = txtAge.getText();
-                StringBuilder str = new StringBuilder();
-                str.append(id).append(name).append(sex).append(age);
-                stuio input = new stuio();
-                try {
-                    input.WriteCSV(str.toString(),4);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                CheckVaild chk = new CheckVaild();
+                int id_len = 8;
+                int str_len= 20;
+                boolean gogo = true;
+                if (!chk.CheckIDVaild(txtId.getText(),id_len)){
+                    JOptionPane.showConfirmDialog(null, "Input Value " + txtId.getText() + " is Invaild! At most " + id_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                    dispose();
+                    gogo = false;
+                }
+                if (!chk.CheckStrVaild(txtName.getText(),str_len)){
+                    JOptionPane.showConfirmDialog(null, "Input Value " + txtName.getText() + " is Invaild! At most " + id_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                    dispose();
+                    gogo = false;
+                }
+                if (!chk.CheckStrVaild(txtSex.getText(),str_len)){
+                    JOptionPane.showConfirmDialog(null, "Input Value " + txtSex.getText() + " is Invaild! At most " + str_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                    dispose();
+                    gogo = false;
+                }
+                if (!chk.CheckIDVaild(txtAge.getText(),id_len) || txtAge.getText().length() > 2 || Integer.parseInt(txtAge.getText()) < 1){
+                    JOptionPane.showConfirmDialog(null, "Input Value " + txtAge.getText() + " is Invaild! ", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                    dispose();
+                    gogo = false;
                 }
 
+                if(gogo) {
+                    String id = txtId.getText() + sysmbol;
+                    String name = txtName.getText() + sysmbol;
+                    String sex = txtSex.getText() + sysmbol;
+                    String age = txtAge.getText();
+                    StringBuilder str = new StringBuilder();
+                    str.append(id).append(name).append(sex).append(age);
+                    stuio input = new stuio();
+                    try {
+                        input.WriteCSV(str.toString(), 4);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -254,27 +278,27 @@ public class BrowseStudentsFrame extends JFrame {
         if (currentRow > 0) {
            stuio input = new stuio();
             //String str=input.readBinary(currentRow);
-            setTitle("浏览学生表记录" + " && 当前记录：" + currentRow);
+            setTitle("BrowseStudentsRecord" + " && Current：" + currentRow);
             try {
-                String ID = input.ReadCSV(currentRow,0);
+                String ID = input.ReadCSV(currentRow,0,true);
                 txtId.setText(ID);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                String name = input.ReadCSV(currentRow,1);
+                String name = input.ReadCSV(currentRow,1,true);
                 txtName.setText(name);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                String sex = input.ReadCSV(currentRow,2);
+                String sex = input.ReadCSV(currentRow,2,true);
                 txtSex.setText(sex);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                String age = input.ReadCSV(currentRow,3);
+                String age = input.ReadCSV(currentRow,3,true);
                 txtAge.setText(age);
             } catch (IOException e) {
                 e.printStackTrace();

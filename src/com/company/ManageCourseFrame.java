@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 import stuio.stuio;
+import stuio.CheckVaild;
 
 
 public class ManageCourseFrame extends JFrame {
@@ -126,6 +127,27 @@ public class ManageCourseFrame extends JFrame {
           @Override
             public void actionPerformed(ActionEvent e) {
                String sysmbol = ",";
+               CheckVaild chk = new CheckVaild();
+               int id_len = 8;
+               int str_len= 20;
+               boolean gogo = true;
+              if (!chk.CheckIDVaild(txtCourseID.getText(),id_len)){
+                  JOptionPane.showConfirmDialog(null, "Input Value " + txtCourseID.getText() + " is Invaild! At most " + id_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                  dispose();
+                  gogo = false;
+              }
+              if (!chk.CheckStrVaild(txtteacher.getText(),str_len)){
+                  JOptionPane.showConfirmDialog(null, "Input Value " + txtteacher.getText() + " is Invaild! At most " + id_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                  dispose();
+                  gogo = false;
+              }
+              if (!chk.CheckStrVaild(txtCourseName.getText(),str_len)){
+                  JOptionPane.showConfirmDialog(null, "Input Value " + txtCourseName.getText() + " is Invaild! At most " + id_len + "charaters!", "WARNING : student information system", JOptionPane.ERROR_MESSAGE);
+                  dispose();
+                  gogo = false;
+              }
+
+            if(gogo){
                 String info = txtCourseInfo.getText()+sysmbol;
                 String tutor = txtteacher.getText()+sysmbol;
                 String CourseID = txtCourseID.getText()+sysmbol;
@@ -144,6 +166,7 @@ public class ManageCourseFrame extends JFrame {
                 txtCourseInfo.setText("");
 
             }
+          }
         });
 
     }
